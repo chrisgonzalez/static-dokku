@@ -1,0 +1,11 @@
+{
+  "name": "static-dokku",
+  "version": "1.0.0",
+  "description": "Template for file-based sites hosted on dokku",
+  "main": "src/index.html",
+  "scripts": {
+    "sass": "sass --watch src/css/style.scss:src/css/style.css"
+  },
+  "author": "Chris Gonzalez",
+  "license": "ISC"
+}
