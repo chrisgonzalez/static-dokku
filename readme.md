@@ -4,7 +4,7 @@
 
 1. Make sure you have SASS installed, or just ignore it if you're a purist ;)
 2. Run 'npm install'
-3. 5. Add your Dokku remote-
+3. Add your Dokku remote-
 $: git remote add SOMENAME dokku@someserver.com:SUBDOMAIN
 
 ## Instructions:
