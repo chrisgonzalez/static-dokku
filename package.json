@@ -10,6 +10,7 @@
   "author": "Chris Gonzalez",
   "license": "ISC",
   "dependencies": {
-    "http-server": "^0.7.4"
+    "http-server": "^0.7.4",
+    "buildify": "^0.4.0"
   }
 }
