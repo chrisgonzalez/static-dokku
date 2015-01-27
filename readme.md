@@ -18,6 +18,27 @@ $: git push SOMENAME master
 
 ## Details:
 
-All "deployed" files will live in src/  
+All working source files will live in src/  
 
 All design files, or static assets can live anywhere else.  
+
+## Build Steps (if you're deploying a static site/page thing)
+
+1. Wrap all style tags you'd like minified in comments of this structure:
+<!-- styles /finaldirectory/filename.min.css -->
+<link rel="stylesheet" href="mystyles1.css" />
+<link rel="stylesheet" href="mystyles2.css" />
+<!-- /styles /finaldirectory/filename.min.css -->
+
+2. Wrap all script tags you'd like minified in comments of this structure:
+<!-- styles /finaldirectory/filename.min.js -->
+<script src="js/myfile1.js"></script>
+<script src="js/myfile2.js"></script>
+<!-- /styles /finaldirectory/filename.min.js -->
+
+3. If you need to copy any directories (images, data, etc), add commands like 'cp -r src/images dist/images;' to the end of the build script
+in package.json, where src/images is your working directory, and dist/images is the production directory.
+
+4. Run 'npm run build' in your console and you'll get a magically modified html file with all your scripts and styles minified.
+You can use as many of these comment blocks as you'd like, just make sure to specify a unique filename in the opening and closing
+comments.

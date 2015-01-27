@@ -71,6 +71,10 @@ buildify('src')
 
 
 for (var i = 0; i < scripts.length; i++) {
+    if (scripts[i].filename.charAt(0) === '/' ) {
+        scripts[i].filename = scripts[i].filename.substring(1);
+    }
+
     if (scripts[i].files.length > 1) {
         buildify('src')
             .load(scripts[i].files[0])
@@ -88,6 +92,10 @@ for (var i = 0; i < scripts.length; i++) {
 }
 
 for (var j = 0; j < styles.length; j++) {
+    if (styles[j].filename.charAt(0) === '/' ) {
+        styles[j].filename = styles[j].filename.substring(1);
+    }
+
     if (styles[j].files.length > 1) {
         buildify('src')
             .load(styles[j].files[0])
