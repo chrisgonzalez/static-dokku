@@ -24,17 +24,17 @@ All design files, or static assets can live anywhere else.
 
 ## Build Steps (if you're deploying a static site/page thing)
 
-1. Wrap all style tags you'd like minified in comments of this structure:
-&lt;!-- styles /finaldirectory/filename.min.css --&gt;
-<link rel="stylesheet" href="mystyles1.css" />
-<link rel="stylesheet" href="mystyles2.css" />
-&lt;!-- /styles /finaldirectory/filename.min.css --&gt;
+1. Wrap all style tags you'd like minified in comments of this structure:  
+&lt;!-- styles /finaldirectory/filename.min.css --&gt;  
+&lt;link rel="stylesheet" href="mystyles1.css" /&gt;  
+&lt;link rel="stylesheet" href="mystyles2.css" /&gt;  
+&lt;!-- /styles /finaldirectory/filename.min.css --&gt;  
 
-2. Wrap all script tags you'd like minified in comments of this structure:
-&lt;!-- styles /finaldirectory/filename.min.js --&gt;
-<script src="js/myfile1.js"></script>
-<script src="js/myfile2.js"></script>
-&lt;!-- /styles /finaldirectory/filename.min.js --&gt;
+2. Wrap all script tags you'd like minified in comments of this structure:  
+&lt;!-- styles /finaldirectory/filename.min.js --&gt;  
+&lt;script src="js/myfile1.js"&gt;&lt;/script&gt;  
+&lt;script src="js/myfile2.js"&gt;&lt;/script&gt;  
+&lt;!-- /styles /finaldirectory/filename.min.js --&gt;  
 
 3. If you need to copy any directories (images, data, etc), add commands like 'cp -r src/images dist/images;' to the end of the build script
 in package.json, where src/images is your working directory, and dist/images is the production directory.
