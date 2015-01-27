@@ -5,7 +5,8 @@
   "main": "src/index.html",
   "scripts": {
     "sass": "sass --watch src/css/style.scss:src/css/style.css",
-    "local": "http-server -p 4000"
+    "local": "http-server -p 4000",
+    "build": "rm -rf dist; buildify;"
   },
   "author": "Chris Gonzalez",
   "license": "ISC",

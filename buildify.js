@@ -1,10 +1,11 @@
-var buildify = require('buildify');
-var scripts, styles;
+var buildify = require('buildify'),
+    scripts = [],
+    styles = [];
 
 // extract all comments: /<!--[\s\S]*?-->/g
 // match anything between two (word)[\s\S]*(word)
 
-buildify('dev')
+buildify('src')
     .load('index.html')
     .perform(function(content) {
         var i, j, outputFileName,
@@ -38,6 +39,8 @@ buildify('dev')
                     files: scriptFiles
                 });
 
+                content = content.replace(regex, '<script src="' + outputFileName + '"></script>')
+
             } else if (enclosed.indexOf('styles') > -1) {
                 console.log('Found a styles block!');
 
@@ -56,68 +59,47 @@ buildify('dev')
                     filename: outputFileName,
                     files: styleFiles
                 });
+
+                content = content.replace(regex, '<link type="text/css" rel="stylesheet" href="' + outputFileName + '" />');
             }
         }
 
-        console.log(scripts);
-        console.log(styles);
-
-
-
-        for (i = 0; i < scriptStrings.length; i++) {
-            var scriptTags = scriptStrings[i].split('</script>');
-        }
-
-        for (i = 0; i < scripts.length; i++) {
-            scripts[i] = scripts[i].substring(scripts[i].indexOf('"') + 1, scripts[i].lastIndexOf('"'));
-        }
-
-        content = content.replace((/(<!-- scripts -->)[\s\S)]*(<!-- \/scripts -->)/mi), '<script src="{{scripts}}"></script>');
-
-        console.log("SCRIPTS FOUND: ");
-        console.log(scripts);
-
-        // find all styles
-        styles = content.match(/(<!-- styles -->)[\s\S)]*(<!-- \/styles -->)/mi);
-
-        styles = styles[0].split('/>');
-        styles = styles.slice(0, styles.length-1);
-
-        for (i = 0; i < styles.length; i++) {
-            styles[i] = styles[i].substring(styles[i].indexOf('href="') + 6, styles[i].lastIndexOf('"'));
-        }
-
-        console.log("STYLES FOUND: ");
-        console.log(styles);
-
-        content = content.replace((/(<!-- styles -->)[\s\S)]*(<!-- \/styles -->)/mi), '<link rel="stylesheet" type="text/css" href="{{stylesheet}}">');
-
         return content;
     })
-    .save('build.html');
-
-buildify('src')
-    .load(scripts[0])
-    .concat(scripts.slice())
-    .uglify()
-    .changeDir('../')
-    .save('dist/js/techspace-radar.min.js');
+    .changeDir('../dist')
+    .save('index.html');
 
 
-buildify('src')
-    .load(styles[0])
-    .concat(styles.slice(1))
-    .cssmin()
-    .changeDir('../')
-    .save('dist/css/techspace-radar.min.css');
+for (var i = 0; i < scripts.length; i++) {
+    if (scripts[i].files.length > 1) {
+        buildify('src')
+            .load(scripts[i].files[0])
+            .concat(scripts[i].files.slice(1))
+            .uglify()
+            .changeDir('../')
+            .save('dist/' + scripts[i].filename);
+    } else {
+        buildify('src')
+            .load(scripts[i].files[0])
+            .uglify()
+            .changeDir('../')
+            .save('dist/' + scripts[i].filename);
+    }
+}
 
-
-buildify('src')
-    .wrap('build.html', {
-        scripts: 'js/techspace-radar.min.js',
-        stylesheet: 'css/techspace-radar.min.css'
-    })
-    .changeDir('../')
-    .save('dist/index.html');
-
-//regex (<!-- scripts -->)[\s\S)]*(<!-- \/scripts -->)
+for (var j = 0; j < styles.length; j++) {
+    if (styles[j].files.length > 1) {
+        buildify('src')
+            .load(styles[j].files[0])
+            .concat(styles[j].files.slice(1))
+            .cssmin()
+            .changeDir('../')
+            .save('dist/' + styles[j].filename);
+    } else {
+        buildify('src')
+            .load(styles[j].files[0])
+            .cssmin()
+            .changeDir('../')
+            .save('dist/' + styles[j].filename);
+    }
+}
