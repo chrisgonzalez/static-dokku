@@ -5,7 +5,7 @@
   "main": "src/index.html",
   "scripts": {
     "sass": "sass --watch src/css/style.scss:src/css/style.css",
-    "local": "http-server -p 5000"
+    "local": "http-server -p 4000"
   },
   "author": "Chris Gonzalez",
   "license": "ISC",

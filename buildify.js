@@ -7,7 +7,7 @@ var scripts, styles;
 buildify('dev')
     .load('index.html')
     .perform(function(content) {
-        var i, j,
+        var i, j, outputFileName,
             comments = content.match(/<!--[\s\S]*?-->/g);
 
         // for each matching set of comments w/ filename
@@ -22,14 +22,45 @@ buildify('dev')
             if (enclosed.indexOf('scripts') > -1) {
                 console.log('Found a script block!');
 
-                var scriptTags = enclosed.match(/src=\"[\s\S]*?\"/gi);
+                outputFileName = opening.replace('<!-- scripts', '').replace('-->', '').trim();
 
-                console.log(scriptTags)
+                var scriptSrc = enclosed.match(/src=\"[\s\S]*?\"/gi);
+
+                var scriptFiles = [];
+
+                for (j = 0; j < scriptSrc.length; j++) {
+                    var src = scriptSrc[j].replace('src="', '').replace('"', '');
+                    scriptFiles.push(src);
+                }
+
+                scripts.push({
+                    filename: outputFileName,
+                    files: scriptFiles
+                });
 
             } else if (enclosed.indexOf('styles') > -1) {
                 console.log('Found a styles block!');
+
+                outputFileName = opening.replace('<!-- styles', '').replace('-->', '').trim();
+
+                var linkHref = enclosed.match(/href=\"[\s\S]*?\"/gi);
+
+                var styleFiles = [];
+
+                for (j = 0; j < linkHref.length; j++) {
+                    var href = linkHref[j].replace('href="', '').replace('"', '');
+                    styleFiles.push(href);
+                }
+
+                styles.push({
+                    filename: outputFileName,
+                    files: styleFiles
+                });
             }
         }
+
+        console.log(scripts);
+        console.log(styles);
 
 
 
